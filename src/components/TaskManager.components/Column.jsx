@@ -10,11 +10,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useDispatch, useSelector } from "react-redux";
 import { createTask } from "../../redux/taskSlice";
-import { taskSchema } from "./validationSchema/taskSchama";
-
-
+import { taskSchema } from "./validationSchema/taskSchema";
 
 export function Column({ column, tasks, showForm, setShowFormFalse }) {
+  const { loading } = useSelector((state) => state.tasks);
+
   const dispatch = useDispatch();
   const {
     register,
@@ -26,8 +26,7 @@ export function Column({ column, tasks, showForm, setShowFormFalse }) {
   });
   const { setNodeRef, isOver } = useDroppable({ id: column.id });
   const [parent] = useAutoAnimate();
- 
-  const dropdownOpen = useSelector((state) => state.tasks.dropdownOpen);
+
   const onSubmit = async (data) => {
     try {
       await dispatch(createTask(data));
@@ -39,7 +38,11 @@ export function Column({ column, tasks, showForm, setShowFormFalse }) {
   };
 
   return (
-    <div className={`flex w-full md:w-80 flex-col rounded-lg ${ isOver?"bg-neutral-600": "bg-neutral-800"} p-4`}>
+    <div
+      className={`flex w-full md:w-80 flex-col rounded-lg ${
+        isOver ? "bg-neutral-600" : "bg-neutral-800"
+      } p-4`}
+    >
       <h2 className="mb-4 font-semibold text-neutral-100">{column.title}</h2>
 
       <AnimatePresence>
@@ -79,22 +82,23 @@ export function Column({ column, tasks, showForm, setShowFormFalse }) {
               {errors.due_date && (
                 <p className="text-red-500">{errors.due_date.message}</p>
               )}
-              <br/>
+              <br />
 
               {/* Buttons */}
               <div className="flex space-x-2">
                 <button
                   type="submit"
+                  disabled={loading}
                   className="px-4 py-2 bg-blue-500 rounded text-white hover:bg-blue-600 transition"
                 >
-                  Save
+                  {loading? "Saving":"Save" }
                 </button>
                 <button
                   type="button"
                   className="px-4 py-2 bg-gray-500 rounded text-white hover:bg-gray-600 transition"
-                  onClick={()=>{
-                    reset()
-                    setShowFormFalse()
+                  onClick={() => {
+                    reset();
+                    setShowFormFalse();
                   }}
                 >
                   Cancel
@@ -104,14 +108,8 @@ export function Column({ column, tasks, showForm, setShowFormFalse }) {
           </motion.div>
         )}
       </AnimatePresence>
-      <div
-        ref={dropdownOpen ? undefined : setNodeRef}
-        className="flex min-h-32 md:flex-1 flex-col gap-4"
-      >
-        <div
-          ref={dropdownOpen ? undefined : parent}
-          className="flex min-h-32 md:flex-1 flex-col gap-4"
-        >
+      <div ref={setNodeRef} className="flex min-h-32 md:flex-1 flex-col gap-4">
+        <div ref={parent} className="flex min-h-32 md:flex-1 flex-col gap-4">
           {tasks.map((task, index) => (
             <motion.div
               key={task.id}
@@ -123,6 +121,7 @@ export function Column({ column, tasks, showForm, setShowFormFalse }) {
               <TaskCard task={task} />
             </motion.div>
           ))}
+          {tasks.length == 0 &&<p className="mb-4 font-semibold text-neutral-500">Empty</p>}
         </div>
       </div>
     </div>
