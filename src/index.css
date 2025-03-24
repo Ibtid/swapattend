@@ -1,0 +1,22 @@
+/* Import or Link to Manrope font */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&display=swap');
+@import "tailwindcss";
+
+/* Custom Colors */
+:root {
+  --primary-500: #faf5cf;
+  --primary-700: #a37d54;
+  --grayscale-200: #e6e6e6;
+  --grayscale-400: #c4c4c4;
+  --grayscale-700: #2b2b2b;
+  --grayscale-800: #1a1a1a;
+  --grayscale-900: #000;
+}
+
+/* Body styles */
+body {
+  background-color: var(--grayscale-800); /* Custom background color */
+  padding: 1rem; /* p-4 */
+  font-family: 'Manrope', sans-serif; /* Custom font family */
+  color: #ffffff; /* text-white */
+}
