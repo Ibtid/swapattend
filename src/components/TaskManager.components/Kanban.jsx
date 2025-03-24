@@ -9,7 +9,7 @@ import { logout } from "../../redux/authSlice";
 
 const KanbanBoard = ({ showForm, setShowFormFalse, formData, setFormData }) => {
   const dispatch = useDispatch();
-  const { tasks,error } = useSelector((state) => state.tasks);
+  const { tasks,error, loading } = useSelector((state) => state.tasks);
   const [isDragging, setIsDragging] = useState(false); 
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const KanbanBoard = ({ showForm, setShowFormFalse, formData, setFormData }) => {
   return (
     <div className="p-4">
       <div className="mb-4">
-      <i>Double click the texts you want to edit and drag the card to bottom corner to delete</i>
+      <i>{loading? "Loading": "Double click the texts you want to edit and drag the card to bottom corner to delete"}</i>
       </div>
       <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
          {isDragging && <TrashZone />}
