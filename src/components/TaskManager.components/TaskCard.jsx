@@ -166,8 +166,9 @@ export function TaskCard({ task }) {
             {formatDate(editedTask.due_date)}
           </p>
         )}
+        <br/>
         <p
-          className="mt-2 cursor-pointer rounded border-1 border-red-300 flex flex-row items-center justify-end"
+          className="mt-2 cursor-pointer p-1 rounded border-1 border-red-300 flex flex-row items-center justify-end"
           onClick={() => clickDelete()}
         >
           <Delete className="text-red-300" />
