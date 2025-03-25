@@ -171,7 +171,7 @@ export function TaskCard({ task }) {
       <br className="inline md:hidden"/>
         <button
         ref={inputRef}
-          className="md:hidden w-full mt-2 cursor-pointer p-1 rounded border-1 border-red-300 flex flex-row items-center justify-end"
+          className="md:hidden w-full mt-2 cursor-pointer p-2 rounded border-1 border-red-300 flex flex-row items-center justify-end"
           onClick={() => clickDelete()}
         >
           <Delete className="text-red-300" />
