@@ -82,6 +82,7 @@ export function TaskCard({ task }) {
 
   if (isEditing) {
     return (
+      <>
       <div
         className="cursor-grab rounded-lg p-4 shadow-sm hover:shadow-md transition-colors duration-200"
         style={style}
@@ -166,15 +167,17 @@ export function TaskCard({ task }) {
             {formatDate(editedTask.due_date)}
           </p>
         )}
-        <br className="inline md:hidden"/>
-        <p
+      </div>
+      <br className="inline md:hidden"/>
+        <button
           className="md:hidden mt-2 cursor-pointer p-1 rounded border-1 border-red-300 flex flex-row items-center justify-end"
           onClick={() => clickDelete()}
         >
           <Delete className="text-red-300" />
           <div className="text-red-300">Delete</div>
-        </p>
-      </div>
+        </button>
+      </>
+      
     );
   } else {
     return (
