@@ -41,7 +41,7 @@ const KanbanBoard = ({ showForm, setShowFormFalse, formData, setFormData }) => {
   return (
     <div className="p-4">
       <div className="mb-4">
-      <i>{loading? "Loading": "Double click the texts you want to edit and drag the card to bottom corner to delete"}</i>
+      <i>{loading? "Loading and saving your status": "Double click the texts you want to edit and drag the card to bottom corner to delete"}</i>
       </div>
       <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
          {isDragging && <TrashZone />}

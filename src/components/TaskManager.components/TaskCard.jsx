@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import { useDraggable } from "@dnd-kit/core";
 import { useDispatch } from "react-redux";
-import { updateTask } from "../../redux/taskSlice";
+import { deleteTask, updateTask } from "../../redux/taskSlice";
 import { formatDate } from "../../utils/formatDate";
+import { Delete } from "lucide-react";
 
 export function TaskCard({ task }) {
   const { attributes, listeners, setNodeRef, transform, isDragging } =
@@ -22,8 +23,8 @@ export function TaskCard({ task }) {
       ? `translate(${transform.x}px, ${transform.y}px)`
       : undefined,
     backgroundColor: isDragging ? "rgb(51, 65, 85)" : "rgb(46, 46, 46)",
-    zIndex: isDragging ? 1001 : "auto", 
-    position: isDragging ? "absolute" : "relative", 
+    zIndex: isDragging ? 1001 : "auto",
+    position: isDragging ? "absolute" : "relative",
     boxShadow: isDragging ? "0 4px 10px rgba(0, 0, 0, 0.2)" : "none",
   };
 
@@ -36,7 +37,7 @@ export function TaskCard({ task }) {
   };
 
   useEffect(() => {
-    if(!isEditing){
+    if (!isEditing) {
       if (
         editedTask.name !== task.name ||
         editedTask.description !== task.description ||
@@ -75,6 +76,10 @@ export function TaskCard({ task }) {
     setIsEditing(null);
   };
 
+  const clickDelete = () => {
+    dispatch(deleteTask(task.id));
+  };
+
   if (isEditing) {
     return (
       <div
@@ -109,7 +114,7 @@ export function TaskCard({ task }) {
             value={editedTask.description}
             onChange={handleInputChange}
             onBlur={handleBlur}
-            onKeyDown={handleKeyDown} 
+            onKeyDown={handleKeyDown}
             className="w-full bg-neutral-700 text-white p-1 rounded outline-none mt-2"
           />
         ) : (
@@ -161,6 +166,13 @@ export function TaskCard({ task }) {
             {formatDate(editedTask.due_date)}
           </p>
         )}
+        <p
+          className="mt-2 cursor-pointer rounded border-1 border-red-300 flex flex-row items-center justify-end"
+          onClick={() => clickDelete()}
+        >
+          <Delete className="text-red-300" />
+          <div className="text-red-300">Delete</div>
+        </p>
       </div>
     );
   } else {
@@ -169,30 +181,40 @@ export function TaskCard({ task }) {
         ref={setNodeRef}
         {...listeners}
         {...attributes}
-        className={`cursor-grab rounded-lg p-4 shadow-sm hover:shadow-md transition-colors duration-200 ${isDragging && "w-full"}`}
+        className={`cursor-grab rounded-lg p-4 shadow-sm hover:shadow-md transition-colors duration-200 ${
+          isDragging && "w-full"
+        }`}
         style={style}
       >
         <h3
           className="font-medium text-neutral-100 cursor-pointer w-full"
-          onDoubleClick={() => setIsEditing("name")}  
+          onDoubleClick={() => setIsEditing("name")}
         >
-           {editedTask.name.trim() ? editedTask.name : <span className="text-neutral-500">Give a name</span>}
+          {editedTask.name.trim() ? (
+            editedTask.name
+          ) : (
+            <span className="text-neutral-500">Give a name</span>
+          )}
         </h3>
         <p
           className="mt-2 text-sm text-neutral-400 cursor-pointer w-full"
-          onDoubleClick={() => setIsEditing("description")}  
+          onDoubleClick={() => setIsEditing("description")}
         >
-           {editedTask.description.trim() ? editedTask.description : <span className="text-neutral-500">Give a description</span>}
+          {editedTask.description.trim() ? (
+            editedTask.description
+          ) : (
+            <span className="text-neutral-500">Give a description</span>
+          )}
         </p>
         <p
           className="mt-2 text-xs text-neutral-400 cursor-pointer w-full"
-          onDoubleClick={() => setIsEditing("status")} 
+          onDoubleClick={() => setIsEditing("status")}
         >
           {editedTask.status}
         </p>
         <p
           className="mt-2 text-xs text-neutral-400 cursor-pointer w-full"
-          onDoubleClick={() => setIsEditing("due_date")}  
+          onDoubleClick={() => setIsEditing("due_date")}
         >
           {formatDate(editedTask.due_date)}
         </p>
