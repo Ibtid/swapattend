@@ -175,7 +175,7 @@ export function TaskCard({ task }) {
           onClick={() => clickDelete()}
         >
           <Delete className="text-red-300" />
-          <div className="text-red-300">Delete</div>
+          <div className="text-red-300">Delete {editedTask.name}</div>
         </button>
         <br className="inline md:hidden"/>
       </>
